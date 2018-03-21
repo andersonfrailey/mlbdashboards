@@ -178,6 +178,7 @@ def pitch_frequency(data, sub_data):
     try:
         perc_overall = [len(data[data['pitch_name'] == p]) / len(data)
                         for p in unique_pitches]
+    # account for no matchups at all or under certain counts
     except ZeroDivisionError:
         perc_overall = np.zeros(len(unique_pitches))
     try:
@@ -200,12 +201,12 @@ def pitch_info(data):
              'KC': 'purple', 'KN': 'orange', 'SL': 'green', 'PO': 'black',
              'IN': 'black', 'EP': 'black', 'SF': 'red'}
     # pitch name dictionary
-    pitch_names = {'FF': 'Four-Seam', 'FT': 'Two-Seam', 'FC': 'Cutter',
-                   'FS': 'Sinker', 'SI': 'Sinker', 'SF': 'Splitter',
-                   'SL': 'Slider', 'CH': 'Change-Up', 'CB': 'Curveball',
-                   'CU': 'Curve', 'KC': 'Knuckle-Curve', 'KN': 'Knuckler',
-                   'EP': 'Eephus', 'UN': 'Unidentified', 'PO': 'Pitch Out',
-                   'XX': 'Unidentified', 'FO': 'Pitch Out'}
+    pitch_names = {'FF': 'Four-Seam Fastball', 'FT': 'Two-Seam Fastball',
+                   'FC': 'Cutter', 'FS': 'Sinker', 'SI': 'Sinker',
+                   'SF': 'Splitter', 'SL': 'Slider', 'CH': 'Change-Up',
+                   'CB': 'Curveball', 'CU': 'Curveball', 'KC': 'Knuckle-Curve',
+                   'KN': 'Knuckler', 'EP': 'Eephus', 'UN': 'Unidentified',
+                   'PO': 'Pitch Out', 'XX': 'Unidentified', 'FO': 'Pitch Out'}
     pitch_color = []
     pitch_name = []
     for r in data.iterrows():
