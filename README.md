@@ -10,3 +10,5 @@ and [Bokeh](https://bokeh.pydata.org/en/latest/) (version 0.12.13).
 
 * `baseballmatchups.py`: view every pitch between a selected pitcher and batter in a given timeframe.
   * To run, navigate to the dashboards directory and use `bokeh serve baseballmatchups.py`
+
+![Alt text](https://github.com/andersonfrailey/andersonfrailey.github.io/blob/master/images/dashboardscreen.gif?raw=true)
