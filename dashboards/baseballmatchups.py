@@ -52,20 +52,33 @@ def results(event, des):
     """
     des_mapping = {'ball': 'Ball', 'blocked_ball': 'Ball',
                    'called_strike': 'Called Strike', 'foul': 'Foul',
-                   'foul_bunt': 'Foul', 'foul_tip': 'Foul',
+                   'foul_bunt': 'Foul', 'foul_tip': 'Foul Tip',
                    'hit_by_pitch': 'HBP', 'swinging_strike': 'Swinging Strike',
                    'swinging_strike_blocked': 'Swinging strike',
                    'fielders_choice_out': "Fielder's Choice",
-                   'force_out': 'Force Out'}
+                   'force_out': 'Force Out',
+                   'missed_bunt': 'Missed Bunt',
+                   'intent_ball': 'Intentional Ball',
+                   'pitchout': 'Pitchout'}
     event_mapping = {'single': 'Single', 'double': 'Double',
                      'triple': 'Triple', 'home_run': 'Home Run',
                      'field_error': 'Error', 'field_out': 'Out',
                      'grounded_into_double_play': 'Double Play',
-                     'force_out': 'Force Out'}
+                     'force_out': 'Force Out',
+                     'fielders_choice_out': "Fielder's Choice - Out",
+                     'double_play': 'Double Play',
+                     'sac_fly': 'Sac Fly', 'sac_bunt': 'Sac Bunt',
+                     'fielders_choice': "Fielder's Choice"}
     if des.startswith('hit_into_play'):
-        return event_mapping[event]
+        try:
+            return event_mapping[event]
+        except KeyError:
+            return event
     else:
-        return des_mapping[des]
+        try:
+            return des_mapping[des]
+        except KeyError:
+            return event
 
 
 # function for returning a list of players
@@ -310,23 +323,24 @@ def retrieve_data():
                            'matchup': b_matchup,
                            'overall': b_overall}
         pitch_cds_b.data = new_data_batter
+        print('Data Gathered')
     run_button.label = 'Run'
 
 
 # define widgets
 # pitcher search
 pfirstname = TextInput(placeholder='First Name', title='Pitcher Search',
-                       width=200)
-plastname = TextInput(placeholder='Last Name', title=' ', width=200)
-psearch = Button(label='Search', button_type='primary', width=200)
+                       width=300)
+plastname = TextInput(placeholder='Last Name', title=' ', width=300)
+psearch = Button(label='Search', button_type='primary', width=300)
 pitcherselect = Select(title='Pitcher', options=[])
 pitcherselect.on_change('value', selection_update)
 
 # hitter seartch
 hfirstname = TextInput(placeholder='First Name', title='Batter Search',
-                       width=200)
-hlastname = TextInput(placeholder='Last Name', title=' ', width=200)
-hsearch = Button(label='Search', button_type='primary', width=200)
+                       width=300)
+hlastname = TextInput(placeholder='Last Name', title=' ', width=300)
+hsearch = Button(label='Search', button_type='primary', width=300)
 hitterselect = Select(title='Batter', options=[])
 hitterselect.on_change('value', selection_update)
 
@@ -417,9 +431,9 @@ tab2 = Panel(child=pitches_b, title='Batter')
 pitch_tabs = Tabs(tabs=[tab1, tab2])
 
 # filters for count
-balls = Select(title='Balls', options=['All', '1', '2', '3'], value='All',
+balls = Select(title='Balls', options=['All', '0', '1', '2', '3'], value='All',
                width=60)
-strikes = Select(title='Strikes', options=['All', '1', '2'], value='All',
+strikes = Select(title='Strikes', options=['All', '0', '1', '2'], value='All',
                  width=60)
 balls.on_change('value', lambda attr, old, new: filter_data())
 strikes.on_change('value', lambda attr, old, new: filter_data())
